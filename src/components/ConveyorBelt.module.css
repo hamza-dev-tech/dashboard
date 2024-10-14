@@ -1,0 +1,70 @@
+.dashboardContainer {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    min-height: 100vh;
+    background-color: #f7f9fc; /* Light background for a fresh look */
+    color: #333; /* Dark text for better readability */
+  }
+  
+  .title {
+    font-size: 2.5em;
+    color: #2c3e50; /* Dark blue for the title */
+    text-align: center;
+    margin-bottom: 30px;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .routeGroup {
+    margin-bottom: 40px;
+    padding: 20px;
+    border: 1px solid #dcdcdc; /* Light border for route groups */
+    border-radius: 8px;
+    background-color: #fff; /* White background for route groups */
+    transition: box-shadow 0.2s ease;
+  }
+  
+  .routeGroup:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Hover effect for route groups */
+  }
+  
+  .routeTitle {
+    font-size: 2.5em;
+    color: #2980b9; /* Soft blue for route titles */
+    margin-bottom: 20px;
+  }
+  
+  .noData {
+    text-align: center;
+    font-size: 1.5em;
+    color: #7f8c8d; /* Gray for no data message */
+  }
+  
+  .progressGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .progressItem {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .progressItem:hover {
+    transform: scale(1.03); /* Scale effect on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+  
+  .routeText {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #34495e; /* Darker color for text */
+    font-size: 2rem;
+  }
+  

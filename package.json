@@ -9,9 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "chart.js": "^4.4.4",
+    "dashboard": "file:",
+    "next": "14.2.15",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.15"
+    "react-bootstrap": "^2.10.5",
+    "react-chartjs-2": "^5.2.0",
+    "react-circular-progressbar": "^2.1.0",
+    "react-dom": "^18"
   },
   "devDependencies": {
     "eslint": "^8",
