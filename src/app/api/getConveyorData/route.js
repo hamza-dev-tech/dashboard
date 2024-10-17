@@ -6,7 +6,7 @@ import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBcr6kLbbV8CacaaWToxqbCi9xPKqpwSbM",
+  apiKey: process.env.FIREBASE_KEY,
   authDomain: "conveyor-data.firebaseapp.com",
   projectId: "conveyor-data",
   storageBucket: "conveyor-data.appspot.com",
