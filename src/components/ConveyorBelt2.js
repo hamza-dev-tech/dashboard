@@ -20,30 +20,23 @@ const ConveyorBelt2 = () => {
   const [completedRoutes, setCompletedRoutes] = useState(new Set()); // Track completed routes and lanes
   const chartsRef = useRef(null); // Reference for capturing charts
 
+  // Fetch data from API
   const fetchData = async () => {
-    console.log("fetchData called");
-    const sheetId = '10CVja5pCDPsfzmabNWoXm3tLdxunIMPunPZf0XM6FqA';
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_API_KEY;
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/13-24!A:F?key=${apiKey}`;
+    
 
     try {
-      const response = await fetch(url);
+      const response = await fetch('/api/getConveyorData'); // Call your Next.js API to get the Excel data
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const json = await response.json();
-      if (!json.values) {
-        console.error("No 'values' property found in the Google Sheets API response.");
-        return;
-      }
-
-      const belt1Data = json.values.slice(1); // Skip header row
-      setData(belt1Data);
+      const { '13-24': conveyorBelt2 } = await response.json();  // Get data for Conveyor Belt 2
+      setData(conveyorBelt2); // Set data for Conveyor Belt 2
     } catch (error) {
-      console.error("Error fetching data from Google Sheets:", error);
+     
     }
   };
+
 
   // Function to announce completion using speech synthesis
   const announceCompletion = (route, lane) => {

@@ -20,28 +20,20 @@ const ConveyorBelt1 = () => {
   const [completedRoutes, setCompletedRoutes] = useState(new Set()); // Track completed routes and lanes
   const chartsRef = useRef(null); // Reference for capturing charts
 
+  // Fetch data from API
   const fetchData = async () => {
     console.log("fetchData called");
-    const sheetId = '10CVja5pCDPsfzmabNWoXm3tLdxunIMPunPZf0XM6FqA';
-    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_SHEETS_API_KEY;
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/1-12!A:F?key=${apiKey}`;
 
     try {
-      const response = await fetch(url);
+      const response = await fetch('/api/getConveyorData'); // Call your Next.js API to get the Excel data
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const json = await response.json();
-      if (!json.values) {
-        console.error("No 'values' property found in the Google Sheets API response.");
-        return;
-      }
-
-      const belt1Data = json.values.slice(1); // Skip header row
-      setData(belt1Data);
+      const { '1-12': conveyorBelt1 } = await response.json();  // Get data for Conveyor Belt 1
+      setData(conveyorBelt1); // Set data for Conveyor Belt 1
     } catch (error) {
-      console.error("Error fetching data from Google Sheets:", error);
+      console.error("Error fetching data from API:", error);
     }
   };
 
@@ -56,7 +48,7 @@ const ConveyorBelt1 = () => {
   // Group data by route
   const groupDataByRoute = (data) => {
     return data.reduce((acc, row) => {
-      const route = row[0]; // Route from the first column
+      const route = row[0]; // Assuming route is in the first column (index 0)
       if (!acc[route]) {
         acc[route] = []; // Initialize array for this route
       }
@@ -78,10 +70,10 @@ const ConveyorBelt1 = () => {
     const newlyCompleted = new Set();
 
     data.forEach((row) => {
-      const route = row[0];
-      const lane = row[2];
-      const totalCases = parseFloat(row[3]); // Total cases from column D
-      const remaining = parseFloat(row[4]); // Remaining from column E
+      const route = row[0];  // Route from the first column
+      const lane = row[2];   // Lane number from the third column
+      const totalCases = parseFloat(row[3]); // Total cases from the fourth column
+      const remaining = parseFloat(row[4]); // Remaining cases from the fifth column
 
       // Calculate completed percentage
       const completedPercentage = totalCases > 0 ? (1 - remaining / totalCases) * 100 : 0;
@@ -110,20 +102,19 @@ const ConveyorBelt1 = () => {
           <h3 className={styles.routeTitle}>Route {route}</h3>
           <div className={styles.progressGrid} ref={chartsRef}>
             {rows.map((row, index) => {
-              const totalCases = parseFloat(row[3]); // Total cases from column D
-              const remaining = parseFloat(row[4]); // Remaining from column E
+              const totalCases = parseFloat(row[3]); // Total cases from the "total_cases" field
+              const remaining = parseFloat(row[4]); // Remaining from the "remaining" field
 
               // Calculate completed percentage
               const completedPercentage = totalCases > 0 ? (1 - remaining / totalCases) * 100 : 0;
 
-              const storeNumber = row[1].trim(); // Store number from the 'store' column
+              const storeNumber = row[1].trim(); // Store number from the "store" field
 
               // Skip rendering if completed percentage is 100%
               if (completedPercentage === 100) return null;
 
               return (
                 <div key={index} className={styles.progressItem}>
-                 
                   <CircularProgressbar
                     value={completedPercentage}
                     text={`${storeNumber.slice(-4)}`}  // Display store number inside the circle
